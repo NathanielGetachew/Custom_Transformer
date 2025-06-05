@@ -2,22 +2,24 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.data.dataset import load_and_preprocess
+import torch
+from torch.utils.data import DataLoader
+from src.data.tensor_dataset import TensorDataset
 from src.models.transformer import TransformerDecoder
 from src.training.train import train_model
 from src.utils.plotting import plot_losses
-from torch.utils.data import DataLoader
+from src.data.tokenizer import CustomTokenizer
 
 config = {
-    "batch_size": 32,
-    "max_length": 128,
-    "d_model": 256,
-    "nhead": 8,
+    "batch_size": 4,
+    "max_length": 64,
+    "d_model": 128,
+    "nhead": 4,
     "num_layers": 2,
     "dim_feedforward": 512,
     "dropout": 0.1,
     "learning_rate": 3e-4,
-    "max_epochs": 5,
+    "max_epochs": 1,
     "eval_interval": 100,
     "grad_clip": 1.0,
     "device": "cpu",
@@ -26,9 +28,13 @@ config = {
 }
 
 def main():
-    train_data, val_data, _, tokenizer = load_and_preprocess(max_length=config["max_length"])
-    train_loader = DataLoader(train_data, batch_size=config["batch_size"], shuffle=True, num_workers=0, pin_memory=config["device"].startswith("cuda"))
-    val_loader = DataLoader(val_data, batch_size=config["batch_size"], shuffle=False, num_workers=0, pin_memory=config["device"].startswith("cuda"))
+    train_dataset = TensorDataset("data/processed/train.pt")
+    val_dataset = TensorDataset("data/processed/valid.pt")
+
+    train_loader = DataLoader(train_dataset, batch_size=config["batch_size"], shuffle=True, num_workers=0, pin_memory=False)
+    val_loader = DataLoader(val_dataset, batch_size=config["batch_size"], shuffle=False, num_workers=0, pin_memory=False)
+
+    tokenizer = CustomTokenizer()
 
     model = TransformerDecoder(
         vocab_size=tokenizer.vocab_size,

@@ -3,3 +3,4 @@ transformers
 tqdm
 matplotlib
 numpy
+tokenizers
