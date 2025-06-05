@@ -1,4 +1,3 @@
-# tests/test_attention.py
 import torch
 from src.models.components.attention import SelfAttentionHead, MultiHeadSelfAttention
 

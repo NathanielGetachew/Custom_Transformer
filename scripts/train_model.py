@@ -9,12 +9,12 @@ from src.utils.plotting import plot_losses
 from torch.utils.data import DataLoader
 
 config = {
-    "batch_size": 64,
+    "batch_size": 32,
     "max_length": 128,
     "d_model": 256,
     "nhead": 8,
-    "num_layers": 3,
-    "dim_feedforward": 1024,
+    "num_layers": 2,
+    "dim_feedforward": 512,
     "dropout": 0.1,
     "learning_rate": 3e-4,
     "max_epochs": 5,
@@ -27,8 +27,8 @@ config = {
 
 def main():
     train_data, val_data, _, tokenizer = load_and_preprocess(max_length=config["max_length"])
-    train_loader = DataLoader(train_data, batch_size=config["batch_size"], shuffle=True, num_workers=2, pin_memory=config["device"].startswith("cuda"))
-    val_loader = DataLoader(val_data, batch_size=config["batch_size"], shuffle=False, num_workers=2, pin_memory=config["device"].startswith("cuda"))
+    train_loader = DataLoader(train_data, batch_size=config["batch_size"], shuffle=True, num_workers=0, pin_memory=config["device"].startswith("cuda"))
+    val_loader = DataLoader(val_data, batch_size=config["batch_size"], shuffle=False, num_workers=0, pin_memory=config["device"].startswith("cuda"))
 
     model = TransformerDecoder(
         vocab_size=tokenizer.vocab_size,

@@ -1,4 +1,3 @@
-# src/training/generate.py
 import torch
 
 def generate_text(model, tokenizer, device, prompt_text, max_new_tokens=200, top_k=50):

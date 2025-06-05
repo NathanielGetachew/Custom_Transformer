@@ -3,17 +3,16 @@ from src.data.dataset import load_and_preprocess
 from src.models.transformer import TransformerDecoder
 from src.training.evaluate import evaluate_model
 from torch.utils.data import DataLoader
-
 def main():
     config = {
-        "batch_size": 64,
-        "max_length": 128,
-        "d_model": 256,
-        "nhead": 8,
-        "num_layers": 3,
-        "dim_feedforward": 1024,
+        "batch_size": 4,
+        "max_length": 64,  # Match train_model.py
+        "d_model": 128,
+        "nhead": 4,
+        "num_layers": 2,
+        "dim_feedforward": 512,
         "dropout": 0.1,
-        "device": "cuda" if torch.cuda.is_available() else "cpu",
+        "device": "cpu",
         "final_model_path": "checkpoints/transformer_final.pth"
     }
 

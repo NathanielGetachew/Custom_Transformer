@@ -4,7 +4,6 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from torch.amp import GradScaler, autocast
 from tqdm import tqdm
-import math
 import os
 
 def get_batch(data_loader, device):
@@ -34,11 +33,11 @@ def train_model(model, train_loader, val_loader, tokenizer, config):
             if device.startswith("cuda"):
                 with autocast('cuda'):
                     logits, _ = model(inputs)
-                    targets = targets[:, :-1]
+                    # Remove the slicing: targets = targets[:, :-1]
                     loss = criterion(logits.reshape(-1, logits.size(-1)), targets.reshape(-1))
             else:
                 logits, _ = model(inputs)
-                targets = targets[:, :-1]
+                # Remove the slicing: targets = targets[:, :-1]
                 loss = criterion(logits.reshape(-1, logits.size(-1)), targets.reshape(-1))
 
             if device.startswith("cuda"):
@@ -78,7 +77,7 @@ def evaluate_loss(model, val_loader, criterion, device):
     with torch.no_grad():
         for inputs, targets in get_batch(val_loader, device):
             logits, _ = model(inputs)
-            targets = targets[:, :-1]
+            # Remove the slicing: targets = targets[:, :-1]
             loss = criterion(logits.reshape(-1, logits.size(-1)), targets.reshape(-1))
             total_loss += loss.item()
     return total_loss / len(val_loader)

@@ -1,4 +1,3 @@
-# tests/test_positional.py
 import torch
 import torch.nn as nn
 from src.models.components.positional import PositionalEncoding

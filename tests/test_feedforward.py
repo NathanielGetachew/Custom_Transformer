@@ -1,4 +1,3 @@
-# tests/test_feedforward.py
 import torch
 from src.models.components.feedforward import FeedForward
 
