@@ -1,4 +1,9 @@
-# scripts/evaluate_model.py
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+import torch
+
+
 from src.data.dataset import load_and_preprocess
 from src.models.transformer import TransformerDecoder
 from src.training.evaluate import evaluate_model
